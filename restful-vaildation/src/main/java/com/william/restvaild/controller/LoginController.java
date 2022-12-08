@@ -12,11 +12,16 @@ import com.william.restvaild.controller.dto.req.LoginRequest;
 import com.william.restvaild.controller.dto.res.LoginResponse;
 import com.william.restvaild.util.rest.RestfulResponse;
 
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping("/login")
 @Validated
 public class LoginController {
 	
+	
+	
+	@ApiOperation(value = "vaildate password", tags = { "Login" })
 	@PostMapping("/validation")
 	public RestfulResponse<LoginResponse> vaildPassword(@Valid @RequestBody LoginRequest request){
 		
