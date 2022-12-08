@@ -1,13 +1,13 @@
 # RESRful Vaildation
 
 ## Inroduction
-This project 
+This project present a Login Vaildation API with basic Spring boot framework included:
 
 * RESRful API
 * Exception Handler (Error Handling)
-* Aspect (AOP)
+* Aspect (Log AOP)
 
-With MVC three layer Pattern
+Developed in MVC three-layer Pattern
 
 ---
 
@@ -41,8 +41,12 @@ Step:
 
 > https://github.com/Williamrightone/restful-vaildation.git
 
-### Eclipse
+### With Eclipse
 
-### Docker
+Run Configurations with profile -> local 
+
+### With Docker
 
 Make sure environment have docker engine
+
+
