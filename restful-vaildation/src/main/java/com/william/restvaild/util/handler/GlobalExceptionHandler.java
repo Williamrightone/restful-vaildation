@@ -16,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 public class GlobalExceptionHandler {
 
 	@ExceptionHandler(MethodArgumentNotValidException.class)
-	public <T> ResponseEntity<String> handleMethodArgumentNotValidException(MethodArgumentNotValidException error) {
+	public ResponseEntity<ResponseErrorDto> handleMethodArgumentNotValidException(MethodArgumentNotValidException error) {
 
 		List<FieldError> fieldErrors = error.getBindingResult().getFieldErrors();
 		
@@ -29,11 +29,10 @@ public class GlobalExceptionHandler {
 			errorFields.append(fieldError.getDefaultMessage());
 		}
 
-		log.error("參數值驗證有誤 : " + errorFields.toString());
-		
+		log.error("參數值格式有誤 : " + errorFields.toString());
 		
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-				.body("Request parameter format error: " + errorFields.toString());
+				.body(new ResponseErrorDto(HttpStatus.BAD_REQUEST, CustomErrorCode.INPUT_FORMAT_ERROR.getCustomErrorCode(), errorFields.toString()));
 
 	}
 

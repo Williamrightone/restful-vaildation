@@ -42,11 +42,5 @@ public class LogAspect {
 
 	}
 	
-	@AfterThrowing(throwing = "err", pointcut = "logReceive()")
-	public void doAfterThrowing(Throwable err) throws Throwable {
-
-		log.error(err.getMessage());
-		
-	}
 	
 }
