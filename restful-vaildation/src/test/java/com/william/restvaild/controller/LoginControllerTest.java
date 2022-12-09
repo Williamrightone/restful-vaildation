@@ -14,9 +14,17 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.william.restvaild.controller.dto.req.LoginRequest;
+
 @SpringBootTest
 @AutoConfigureMockMvc
 public class LoginControllerTest {
+	
+	final String LOGIN_URI = "/login/validation";
+	
+	@Autowired
+	private ObjectMapper objectMapper;
 	
 	@Autowired
 	private MockMvc mockMvc;
@@ -25,16 +33,14 @@ public class LoginControllerTest {
 	void test_login_email_is_null() throws Exception {
 		
 		RequestBuilder requestbuilder = MockMvcRequestBuilders
-				.post("/login/validation")
+				.post(LOGIN_URI)
 				.contentType(MediaType.APPLICATION_JSON)
-				.content("{\r\n"
-						+ "    \"email\":\"\",\r\n"
-						+ "    \"password\":\"Demo1234\"\r\n"
-						+ "}");
+				.content(objectMapper.writeValueAsString(new LoginRequest(null,"Demo1234")));
 		
 		mockMvc.perform(requestbuilder)
 				.andDo(print())
 				.andExpect(jsonPath("$.customErrorCode").value("8000"))
+				.andExpect(jsonPath("$.errMessage").value("email can not be null"))
 				.andExpect(status().is(400));
 	}
 	
@@ -42,12 +48,9 @@ public class LoginControllerTest {
 	void test_login_password_is_null() throws Exception {
 		
 		RequestBuilder requestbuilder = MockMvcRequestBuilders
-				.post("/login/validation")
+				.post(LOGIN_URI)
 				.contentType(MediaType.APPLICATION_JSON)
-				.content("{\r\n"
-						+ "    \"email\":\"willy4543@gmail.com\",\r\n"
-						+ "    \"password\":\"\"\r\n"
-						+ "}");
+				.content(objectMapper.writeValueAsString(new LoginRequest("willy4543@gmail.com",null)));
 		
 		mockMvc.perform(requestbuilder)
 				.andDo(print())
@@ -59,12 +62,9 @@ public class LoginControllerTest {
 	void test_login_password_too_short() throws Exception {
 		
 		RequestBuilder requestbuilder = MockMvcRequestBuilders
-				.post("/login/validation")
+				.post(LOGIN_URI)
 				.contentType(MediaType.APPLICATION_JSON)
-				.content("{\r\n"
-						+ "    \"email\":\"willy4543@gmail.com\",\r\n"
-						+ "    \"password\":\"a123\"\r\n"
-						+ "}");
+				.content(objectMapper.writeValueAsString(new LoginRequest("willy4543@gmail.com","aaa")));
 		
 		mockMvc.perform(requestbuilder)
 				.andDo(print())
@@ -76,12 +76,9 @@ public class LoginControllerTest {
 	void test_login_password_too_long() throws Exception {
 		
 		RequestBuilder requestbuilder = MockMvcRequestBuilders
-				.post("/login/validation")
+				.post(LOGIN_URI)
 				.contentType(MediaType.APPLICATION_JSON)
-				.content("{\r\n"
-						+ "    \"email\":\"willy4543@gmail.com\",\r\n"
-						+ "    \"password\":\"a123456789qazwsx\"\r\n"
-						+ "}");
+				.content(objectMapper.writeValueAsString(new LoginRequest("willy4543@gmail.com","1Qaz2wsx3eDc4rfv")));
 		
 		mockMvc.perform(requestbuilder)
 				.andDo(print())
@@ -93,12 +90,9 @@ public class LoginControllerTest {
 	void test_login_password_format_error() throws Exception {
 		
 		RequestBuilder requestbuilder = MockMvcRequestBuilders
-				.post("/login/validation")
+				.post(LOGIN_URI)
 				.contentType(MediaType.APPLICATION_JSON)
-				.content("{\r\n"
-						+ "    \"email\":\"willy4543@gmail.com\",\r\n"
-						+ "    \"password\":\"'OR 1=1 --\"\r\n"
-						+ "}");
+				.content(objectMapper.writeValueAsString(new LoginRequest("willy4543@gmail.com","'OR 1=1 --")));
 		
 		mockMvc.perform(requestbuilder)
 				.andDo(print())
