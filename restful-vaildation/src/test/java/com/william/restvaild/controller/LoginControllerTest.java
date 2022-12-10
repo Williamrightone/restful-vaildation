@@ -21,7 +21,7 @@ import com.william.restvaild.controller.dto.req.LoginRequest;
 @AutoConfigureMockMvc
 public class LoginControllerTest {
 	
-	final String LOGIN_URI = "/login/validation";
+	private static final String LOGIN_URI = "/login/validation";
 	
 	@Autowired
 	private ObjectMapper objectMapper;
@@ -45,12 +45,41 @@ public class LoginControllerTest {
 	}
 	
 	@Test
+	void test_login_email_is_blank() throws Exception {
+		
+		RequestBuilder requestbuilder = MockMvcRequestBuilders
+				.post(LOGIN_URI)
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(objectMapper.writeValueAsString(new LoginRequest("","Demo1234")));
+		
+		mockMvc.perform(requestbuilder)
+				.andDo(print())
+				.andExpect(jsonPath("$.customErrorCode").value("8000"))
+				.andExpect(jsonPath("$.errMessage").value("email can not be null"))
+				.andExpect(status().is(400));
+	}
+	
+	@Test
 	void test_login_password_is_null() throws Exception {
 		
 		RequestBuilder requestbuilder = MockMvcRequestBuilders
 				.post(LOGIN_URI)
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(objectMapper.writeValueAsString(new LoginRequest("willy4543@gmail.com",null)));
+		
+		mockMvc.perform(requestbuilder)
+				.andDo(print())
+				.andExpect(jsonPath("$.customErrorCode").value("8000"))
+				.andExpect(status().is(400));
+	}
+	
+	@Test
+	void test_login_password_is_blank() throws Exception {
+		
+		RequestBuilder requestbuilder = MockMvcRequestBuilders
+				.post(LOGIN_URI)
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(objectMapper.writeValueAsString(new LoginRequest("willy4543@gmail.com","")));
 		
 		mockMvc.perform(requestbuilder)
 				.andDo(print())

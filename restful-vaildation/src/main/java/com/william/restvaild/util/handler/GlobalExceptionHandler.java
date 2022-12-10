@@ -16,12 +16,13 @@ import lombok.extern.slf4j.Slf4j;
 public class GlobalExceptionHandler {
 
 	@ExceptionHandler(MethodArgumentNotValidException.class)
-	public ResponseEntity<ResponseErrorDto> handleMethodArgumentNotValidException(MethodArgumentNotValidException error) {
+	public ResponseEntity<ResponseErrorDto> handleMethodArgumentNotValidException(
+			MethodArgumentNotValidException error) {
 
 		List<FieldError> fieldErrors = error.getBindingResult().getFieldErrors();
-		
+
 		StringBuilder errorFields = new StringBuilder();
-		
+
 		for (FieldError fieldError : fieldErrors) {
 			if (errorFields.length() > 0) {
 				errorFields.append(", ");
@@ -29,11 +30,22 @@ public class GlobalExceptionHandler {
 			errorFields.append(fieldError.getDefaultMessage());
 		}
 
-		log.error("參數值格式有誤 : " + errorFields.toString());
-		
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-				.body(new ResponseErrorDto(HttpStatus.BAD_REQUEST, CustomErrorCode.INPUT_FORMAT_ERROR.getCustomErrorCode(), errorFields.toString()));
+				.body(new ResponseErrorDto(HttpStatus.BAD_REQUEST,
+						CustomServiceException.CustomServiceErrorType.INPUT_FORMAT_ERROR.getCustomErrorCode(),
+						errorFields.toString()));
 
+	}
+
+	@ExceptionHandler(CustomServiceException.class)
+	public ResponseEntity<ResponseErrorDto> handleCustomServiceException(CustomServiceException error) {
+		
+		if(error.getErrorLevel().equals(CustomErrorLevel.HEIGH.name())) {
+			log.error(error.getMessage());
+		}
+
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+				.body(new ResponseErrorDto(HttpStatus.BAD_REQUEST, error.getErrorCode(), error.getMessage()));
 	}
 
 }

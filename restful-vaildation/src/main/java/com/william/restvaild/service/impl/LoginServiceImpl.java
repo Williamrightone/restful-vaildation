@@ -1,23 +1,45 @@
 package com.william.restvaild.service.impl;
 
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.william.restvaild.controller.dto.req.LoginRequest;
 import com.william.restvaild.controller.dto.res.LoginResponse;
+import com.william.restvaild.repos.dao.UserEntityRepository;
+import com.william.restvaild.repos.po.UserEntity;
 import com.william.restvaild.service.LoginService;
+import com.william.restvaild.util.handler.CustomServiceException;
+import com.william.restvaild.util.handler.CustomServiceException.CustomServiceErrorType;
 import com.william.restvaild.util.rest.RestfulResponse;
 
 @Service
 public class LoginServiceImpl implements LoginService {
 
+	@Autowired
+	private UserEntityRepository userEntityRepsoitory;
+
 	@Override
 	public RestfulResponse<LoginResponse> loginByEmailAndPassword(LoginRequest request) {
+
+		System.out.println(request);
 		
+		UserEntity userEntity = userEntityRepsoitory.findById(request.getEmail())
+				.orElseThrow(() -> new CustomServiceException(CustomServiceErrorType.USER_NOT_FOUND, "User Not Found"));
+
+		
+		if (!request.getPassword().equals(userEntity.getPassword())) {
+
+			throw new CustomServiceException(CustomServiceErrorType.EMAIL_PASSWORD_NOT_MATCH,
+					"Email and Password Not Match");
+		}
+
 		LoginResponse response = new LoginResponse();
-		
-		response.setUserId(1L);
-		response.setUserName("william");
-		
+
+		response.setEmail(userEntity.getEmail());
+		response.setUserName(userEntity.getUserName());
+
 		return new RestfulResponse<LoginResponse>(response);
 	}
 
