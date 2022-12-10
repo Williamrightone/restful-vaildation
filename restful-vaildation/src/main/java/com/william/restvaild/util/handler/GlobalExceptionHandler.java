@@ -42,6 +42,7 @@ public class GlobalExceptionHandler {
 		
 		if(error.getErrorLevel().equals(CustomErrorLevel.HEIGH.name())) {
 			log.error(error.getMessage());
+			//TODO save to DB
 		}
 
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST)

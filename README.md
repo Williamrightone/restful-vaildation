@@ -46,6 +46,7 @@ ErrorCode could be used to i18n on frontend framework
 | :-----:| :----: | :----: | :----: |
 | 00001 | INPUT_FORMAT_ERROR | LOW | @Valid message |
 | 10000 | USER_NOT_FOUND | LOW | User Not Found |
+| 10001 | EMAIL_PASSWORD_NOT_MATCH | LOW | Email and Password Not Match |
 
 ---
 
@@ -53,23 +54,22 @@ ErrorCode could be used to i18n on frontend framework
 
 * OpenJDK 17
 * Maven 3.8.6
-* H2 database
+* H2 database for unit test
 
 ## Execute Project
 
-This Project could be run with IDE and docker container
+This Project could be run on IDE or docker container
 
-Step:
+**Step:**
 1. Clone this project 
 
 > https://github.com/Williamrightone/restful-vaildation.git
 
-### With Eclipse
+2. Configurations setting
 
-Run Configurations with profile -> local 
+First time Setting:
 
-### With Docker
+Right click on Project, select Run As => Run Configurations and set profile -> local
 
-Make sure environment have docker engine
-
+After that, it could run normally
 
