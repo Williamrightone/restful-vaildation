@@ -39,7 +39,7 @@ public class LoginControllerTest {
 		
 		mockMvc.perform(requestbuilder)
 				.andDo(print())
-				.andExpect(jsonPath("$.customErrorCode").value("8000"))
+				.andExpect(jsonPath("$.customErrorCode").value("00001"))
 				.andExpect(jsonPath("$.errMessage").value("email can not be null"))
 				.andExpect(status().is(400));
 	}
@@ -54,7 +54,7 @@ public class LoginControllerTest {
 		
 		mockMvc.perform(requestbuilder)
 				.andDo(print())
-				.andExpect(jsonPath("$.customErrorCode").value("8000"))
+				.andExpect(jsonPath("$.customErrorCode").value("00001"))
 				.andExpect(jsonPath("$.errMessage").value("email can not be null"))
 				.andExpect(status().is(400));
 	}
@@ -69,7 +69,7 @@ public class LoginControllerTest {
 		
 		mockMvc.perform(requestbuilder)
 				.andDo(print())
-				.andExpect(jsonPath("$.customErrorCode").value("8000"))
+				.andExpect(jsonPath("$.customErrorCode").value("00001"))
 				.andExpect(status().is(400));
 	}
 	
@@ -83,7 +83,7 @@ public class LoginControllerTest {
 		
 		mockMvc.perform(requestbuilder)
 				.andDo(print())
-				.andExpect(jsonPath("$.customErrorCode").value("8000"))
+				.andExpect(jsonPath("$.customErrorCode").value("00001"))
 				.andExpect(status().is(400));
 	}
 	
@@ -97,7 +97,7 @@ public class LoginControllerTest {
 		
 		mockMvc.perform(requestbuilder)
 				.andDo(print())
-				.andExpect(jsonPath("$.customErrorCode").value("8000"))
+				.andExpect(jsonPath("$.customErrorCode").value("00001"))
 				.andExpect(status().is(400));
 	}
 	
@@ -111,7 +111,7 @@ public class LoginControllerTest {
 		
 		mockMvc.perform(requestbuilder)
 				.andDo(print())
-				.andExpect(jsonPath("$.customErrorCode").value("8000"))
+				.andExpect(jsonPath("$.customErrorCode").value("00001"))
 				.andExpect(status().is(400));
 	}
 	
@@ -125,8 +125,21 @@ public class LoginControllerTest {
 		
 		mockMvc.perform(requestbuilder)
 				.andDo(print())
-				.andExpect(jsonPath("$.customErrorCode").value("8000"))
+				.andExpect(jsonPath("$.customErrorCode").value("00001"))
 				.andExpect(status().is(400));
+	}
+	
+	@Test
+	void test_login_success() throws Exception {
+		RequestBuilder requestbuilder = MockMvcRequestBuilders
+				.post(LOGIN_URI)
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(objectMapper.writeValueAsString(new LoginRequest("willy4543@gmail.com","Demo1234")));
+		
+		mockMvc.perform(requestbuilder)
+		.andDo(print())
+		.andExpect(jsonPath("$.data.email").value("willy4543@gmail.com"))
+		.andExpect(status().is(200));
 	}
 	
 	

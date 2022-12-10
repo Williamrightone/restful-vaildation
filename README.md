@@ -38,7 +38,7 @@ Login Vaildation with condidtions listed below:
 2. Length of password should between 6 and 12
 3. Password can only be composed of uppercase or lowercase letters and numbers
 
-### Circumstances ErrorCode
+### Circumstances & ErrorCode
 
 ErrorCode could be used to i18n on frontend framework
 
@@ -58,8 +58,6 @@ ErrorCode could be used to i18n on frontend framework
 
 ## Execute Project
 
-This Project could be run on IDE or docker container
-
 **Step:**
 1. Clone this project 
 
@@ -67,9 +65,7 @@ This Project could be run on IDE or docker container
 
 2. Configurations setting
 
-First time Setting:
+```First time Setting:``` Right click on Project, select ```Run As``` => ```Run Configurations``` and set profile -> ```local```
 
-Right click on Project, select Run As => Run Configurations and set profile -> local
-
-After that, it could run normally
+After that, just Run As Spring Boot App
 
