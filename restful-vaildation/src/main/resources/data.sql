@@ -1,1 +1,0 @@
-INSERT INTO PROJECT_USER (EMAIL, PASSWORD, USER_NAME) VALUES ('willy4543@gmail.com', 'Demo1234', 'William');
