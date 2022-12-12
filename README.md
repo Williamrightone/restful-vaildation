@@ -1,4 +1,4 @@
-# RESRful Vaildation
+# RESTful Vaildation
 
 ## Inroduction
 This project present a Login Vaildation API with basic Spring boot framework included:

@@ -4,10 +4,14 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import com.william.restvaild.controller.dto.req.LoginRequest;
+import com.william.restvaild.repos.dao.UserEntityRepository;
+import com.william.restvaild.repos.po.UserEntity;
 import com.william.restvaild.util.handler.CustomServiceException;
 
 @SpringBootTest
@@ -15,6 +19,9 @@ public class LoginServiceTest {
 	
 	@Autowired
 	private LoginService loginService;
+	
+	@MockBean
+	private UserEntityRepository userEntityRepository;
 
 	@Test
 	void test_when_user_not_found_that_throw_exception() {
@@ -37,8 +44,5 @@ public class LoginServiceTest {
 		assertEquals("10001", customServiceException.getErrorCode());
 		
 	}
-	
-	//TODO 測試預期結果
-
 
 }
