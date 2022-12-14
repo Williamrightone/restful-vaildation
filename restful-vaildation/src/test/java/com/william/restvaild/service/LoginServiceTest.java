@@ -2,6 +2,8 @@ package com.william.restvaild.service;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.Optional;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -44,5 +46,26 @@ public class LoginServiceTest {
 		assertEquals("10001", customServiceException.getErrorCode());
 		
 	}
+	
+	@Test
+	void test_mock_when_user_exist() {
+		
+		Optional<UserEntity> mockUser = Optional.ofNullable(new UserEntity());
+		mockUser.get().setEmail("willy4543@gmail.com");
+		
+		Mockito.when(userEntityRepository.findByEmail("willy4543@gmail.com")).thenReturn(mockUser);
+		
+		assertNotNull(mockUser);
+		assertEquals("willy4543@gmail.com", mockUser.get().getEmail());
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 
 }
