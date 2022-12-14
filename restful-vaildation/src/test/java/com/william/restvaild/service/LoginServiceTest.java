@@ -22,8 +22,8 @@ public class LoginServiceTest {
 	@Autowired
 	private LoginService loginService;
 	
-	@MockBean
-	private UserEntityRepository userEntityRepository;
+//	@MockBean
+//	private UserEntityRepository userEntityRepository;
 
 	@Test
 	void test_when_user_not_found_that_throw_exception() {
@@ -47,18 +47,18 @@ public class LoginServiceTest {
 		
 	}
 	
-	@Test
-	void test_mock_when_user_exist() {
-		
-		Optional<UserEntity> mockUser = Optional.ofNullable(new UserEntity());
-		mockUser.get().setEmail("willy4543@gmail.com");
-		
-		Mockito.when(userEntityRepository.findByEmail("willy4543@gmail.com")).thenReturn(mockUser);
-		
-		assertNotNull(mockUser);
-		assertEquals("willy4543@gmail.com", mockUser.get().getEmail());
-		
-	}
+//	@Test
+//	void test_mock_when_user_exist() {
+//		
+//		Optional<UserEntity> mockUser = Optional.ofNullable(new UserEntity());
+//		mockUser.get().setEmail("willy4543@gmail.com");
+//		
+//		Mockito.when(userEntityRepository.findByEmail("willy4543@gmail.com")).thenReturn(mockUser);
+//		
+//		assertNotNull(mockUser);
+//		assertEquals("willy4543@gmail.com", mockUser.get().getEmail());
+//		
+//	}
 	
 	
 	
