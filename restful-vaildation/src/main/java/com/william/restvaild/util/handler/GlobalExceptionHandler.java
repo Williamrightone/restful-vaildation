@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -39,14 +40,22 @@ public class GlobalExceptionHandler {
 
 	@ExceptionHandler(CustomServiceException.class)
 	public ResponseEntity<ResponseErrorDto> handleCustomServiceException(CustomServiceException error) {
-		
-		if(error.getErrorLevel().equals(CustomErrorLevel.HEIGH.name())) {
+
+		if (error.getErrorLevel().equals(CustomErrorLevel.HEIGH.name())) {
 			log.error(error.getMessage());
-			//TODO save to DB
+			// TODO save to DB
 		}
 
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST)
 				.body(new ResponseErrorDto(HttpStatus.BAD_REQUEST, error.getErrorCode(), error.getMessage()));
+	}
+
+	@ExceptionHandler(HttpMessageNotReadableException.class)
+	public ResponseEntity<ResponseErrorDto> handleHttpMessageNotReadableException(
+			HttpMessageNotReadableException error) {
+
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+				.body(new ResponseErrorDto(HttpStatus.BAD_REQUEST, "AAAAA", "Required request body is missing"));
 	}
 
 }

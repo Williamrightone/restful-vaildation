@@ -36,9 +36,9 @@ public class LoginControllerTest {
 				.post(LOGIN_URI)
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(objectMapper.writeValueAsString(new LoginRequest(null, "Demo1234")));
-		
+
 		testFormatErrorMockPerform(requestbuilder);
-		
+
 	}
 
 	@Test
@@ -50,7 +50,7 @@ public class LoginControllerTest {
 				.content(objectMapper.writeValueAsString(new LoginRequest("", "Demo1234")));
 
 		testFormatErrorMockPerform(requestbuilder);
-		
+
 	}
 
 	@Test
@@ -73,7 +73,7 @@ public class LoginControllerTest {
 				.content(objectMapper.writeValueAsString(new LoginRequest("willy4543@gmail.com", "")));
 
 		testFormatErrorMockPerform(requestbuilder);
-		
+
 	}
 
 	@Test
@@ -85,7 +85,7 @@ public class LoginControllerTest {
 				.content(objectMapper.writeValueAsString(new LoginRequest("willy4543@gmail.com", "aaa")));
 
 		testFormatErrorMockPerform(requestbuilder);
-		
+
 	}
 
 	@Test
@@ -97,7 +97,7 @@ public class LoginControllerTest {
 				.content(objectMapper.writeValueAsString(new LoginRequest("willy4543@gmail.com", "1Qaz2wsx3eDc4rfv")));
 
 		testFormatErrorMockPerform(requestbuilder);
-		
+
 	}
 
 	@Test
@@ -118,21 +118,36 @@ public class LoginControllerTest {
 				.post(LOGIN_URI)
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(objectMapper
-				.writeValueAsString(new LoginRequest("willy4543@gmail.com", "Demo1234")));
+						.writeValueAsString(new LoginRequest("willy4543@gmail.com", "Demo1234")));
 
 		mockMvc.perform(requestbuilder)
-		.andDo(print())
-		.andExpect(jsonPath("$.data.email").value("willy4543@gmail.com"))
-		.andExpect(status().is(200));
-		
+				.andDo(print())
+				.andExpect(jsonPath("$.data.email").value("willy4543@gmail.com"))
+				.andExpect(status().is(200));
+
+	}
+
+	@Test
+	void test_login_user_not_found() throws Exception {
+		RequestBuilder requestbuilder = MockMvcRequestBuilders
+				.post(LOGIN_URI)
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(objectMapper
+						.writeValueAsString(new LoginRequest("peter_1234@gmail.com", "Peter1234")));
+
+		mockMvc.perform(requestbuilder)
+				.andDo(print())
+				.andExpect(jsonPath("$.customErrorCode").value("10000"))
+				.andExpect(status().is(400));
+
 	}
 
 	private void testFormatErrorMockPerform(RequestBuilder requestbuilder) throws Exception {
 
 		mockMvc.perform(requestbuilder)
-		.andDo(print())
-		.andExpect(jsonPath("$.customErrorCode").value("00001"))
-		.andExpect(status().is(400));
+				.andDo(print())
+				.andExpect(jsonPath("$.customErrorCode").value("00001"))
+				.andExpect(status().is(400));
 
 	}
 
