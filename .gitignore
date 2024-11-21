@@ -1,2 +1,4 @@
 /.metadata/
 .vscode/settings.json
+yarn.lock
+node_modules/
